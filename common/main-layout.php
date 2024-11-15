@@ -29,9 +29,9 @@
 </head>
 
 <body class="mx-auto overflow-x-hidden bg-amber-50/75">
-    <?php include 'common/header.php'; ?>
-    <?php include 'common/sidebar.php'; ?>
-    <?php echo $slot; ?>
+    <?php
+        if (!$halaman_khusus) include 'common/sidebar.php';
+    ?>
 </body>
 
 </html>
