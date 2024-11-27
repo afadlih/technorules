@@ -1,5 +1,5 @@
 <?php
-$judul = "kelas | Tata Tertib Polinema";
+$judul = "Kelas | Tata Tertib Polinema";
 $deskripsi = "";
 $halaman_khusus = false;
 
