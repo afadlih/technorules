@@ -6,7 +6,7 @@ $halaman_khusus = true;
 include "common/main-layout.php";
 ?>
 
-<main class="h-screen w-full grid place-items-center bg-[#0242a6] lg:h-[180vh] sm:h-[160vh]">
+<main class="h-screen w-full grid place-items-center bg-[#0242a6] lg:h-[185vh] sm:h-[160vh]">
     <section class="mx-auto flex h-4/5 w-4/5 bg-[#eceff2] rounded-3xl overflow-hidden gap-10 lg:px-14 lg:py-8">
         <div class="relative w-2/5 hidden lg:inline">
             <img
@@ -33,7 +33,7 @@ include "common/main-layout.php";
                         class="bg-[#ececec] text-sm px-4 py-3 rounded-lg"
                         required
                     />
-                    <span class="error-validation" class="text-red-600 text-sm italic"></span>
+                    <span id="error_full_name" class="text-red-600 text-sm italic"></span>
                 </div>
                 <div class="flex flex-col gap-3 mt-2">
                     <label for="username" class="font-semibold text-lg text-[#0242a6]">
@@ -47,7 +47,7 @@ include "common/main-layout.php";
                         class="bg-[#ececec] text-sm px-4 py-3 rounded-lg"
                         required
                     />
-                    <span class="error-validation" class="text-red-600 text-sm italic"></span>
+                    <span id="error_username" class="text-red-600 text-sm italic"></span>
                 </div>
                 <div class="flex flex-col gap-3 mt-2">
                     <label for="password" class="font-semibold text-lg text-[#0242a6]">
@@ -61,7 +61,7 @@ include "common/main-layout.php";
                         class="bg-[#ececec] text-sm px-4 py-3 rounded-lg"
                         required
                     />
-                    <span class="error-validation" class="text-red-600 text-sm italic"></span>
+                    <span id="error_password" class="text-red-600 text-sm italic"></span>
                 </div>
                 <div class="flex flex-col gap-3 mt-2">
                     <label for="confirm_password" class="font-semibold text-lg text-[#0242a6]">
@@ -75,22 +75,23 @@ include "common/main-layout.php";
                         class="bg-[#ececec] text-sm px-4 py-3 rounded-lg"
                         required
                     />
-                    <span class="error-validation" class="text-red-600 text-sm italic"></span>
+                    <span id="error_confirm_password" class="text-red-600 text-sm italic"></span>
                 </div>
                 <div class="mt-2 flex">
                     <input type="checkbox" name="checkbox" id="checkbox" />
                     <label for="checkbox" class="text-sm ml-2">Tampilkan Kata Sandi</label>
                 </div>
                 <button
+                    id="submit"
                     type="submit"
                     class="mt-7 w-full bg-[#0242a6] text-white font-semibold text-sm px-4 py-3 rounded-lg transition-all duration-300 ease-in-out hover:bg-[#173f80]"
                 >
-                    Login
+                    Daftar
                 </button>
             </form>
             <span class="mt-7 text-sm">
                 Sudah punya akun?
-                <a href="login.php" class="text-[#0242a6]">Masuk</a>
+                <a href="login" class="text-[#0242a6]">Masuk</a>
             </span>
         </div>
     </section>

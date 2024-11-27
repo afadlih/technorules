@@ -33,7 +33,7 @@ include "common/main-layout.php";
                         class="bg-[#ececec] text-sm px-4 py-3 rounded-lg"
                         required
                     />
-                    <span class="error-validation" class="text-red-600 text-sm italic"></span>
+                    <span id="error_username" class="text-red-600 text-sm italic"></span>
                 </div>
                 <div class="flex flex-col gap-3 mt-2">
                     <label for="password" class="font-semibold text-lg text-[#0242a6]">
@@ -47,13 +47,14 @@ include "common/main-layout.php";
                         class="bg-[#ececec] text-sm px-4 py-3 rounded-lg"
                         required
                     />
-                    <span class="error-validation" class="text-red-600 text-sm italic"></span>
+                    <span id="error_password" class="text-red-600 text-sm italic"></span>
                 </div>
                 <div class="mt-2 flex">
                     <input type="checkbox" name="checkbox" id="checkbox" />
                     <label for="checkbox" class="text-sm ml-2">Tampilkan Kata Sandi</label>
                 </div>
                 <button
+                    id="submit"
                     type="submit"
                     class="mt-7 w-full bg-[#0242a6] text-white font-semibold text-sm px-4 py-3 rounded-lg transition-all duration-300 ease-in-out hover:bg-[#173f80]"
                 >
@@ -62,7 +63,7 @@ include "common/main-layout.php";
             </form>
             <span class="mt-7 text-sm">
                 Belum punya akun?
-                <a href="register.php" class="text-[#0242a6]">Daftar disini</a>
+                <a href="register" class="text-[#0242a6]">Daftar disini</a>
             </span>
         </div>
     </section>

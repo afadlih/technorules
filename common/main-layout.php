@@ -16,22 +16,21 @@
     <meta name="twitter:description" content="<?php echo $deskripsi; ?>" />
     <meta name="twitter:image" content="<?php ?>" />
     <title><?php echo $judul; ?></title>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="images/logo.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Playwrite+US+Trad:wght@100..400&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles/app.css">
-    <script src="utils/app.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="mx-auto overflow-x-hidden bg-amber-50/75">
     <?php
-        if (!$halaman_khusus) include 'common/sidebar.php';
+    if (!$halaman_khusus) include 'common/sidebar.php';
     ?>
+    <script type="text/javascript" src="common/validation.js"></script>
+    <script type="text/javascript" src="common/app.js"></script>
 </body>
 
 </html>
