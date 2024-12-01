@@ -3,7 +3,7 @@ $judul = "Masuk | Tata Tertib Polinema";
 $deskripsi = "Selamat datang di Tata Tertib Polinema, platform pembelajaran yang menyediakan berbagai materi informatif untuk Anak Berkebutuhan Khusus.";
 $halaman_khusus = true;
 
-include "common/main-layout.php";
+include "common/components/layouts/dpa.php";
 ?>
 
 <main class="h-[135vh] w-full grid place-items-center bg-[#0242a6]">

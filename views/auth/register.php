@@ -3,7 +3,7 @@ $judul = "Daftar | Tata Tertib Polinema";
 $deskripsi = "";
 $halaman_khusus = true;
 
-include "common/main-layout.php";
+include "common/components/layouts/dpa.php";
 ?>
 
 <main class="h-screen w-full grid place-items-center bg-[#0242a6] lg:h-[185vh] sm:h-[160vh]">
