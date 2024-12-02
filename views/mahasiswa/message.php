@@ -1,6 +1,6 @@
 <?php
-$judul = "Dashboard | Tata Tertib Polinema";
-$deskripsi = "Selamat datang di Tata Tertib Polinema.";
+$judul = "Pesan | Tata Tertib Polinema";
+$deskripsi = "";
 $halaman_khusus = false;
 
 include "common/components/layouts/mahasiswa.php";

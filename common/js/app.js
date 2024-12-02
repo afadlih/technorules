@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", (e) => {
+document.addEventListener("DOMContentLoaded", () => {
   const edit = document.querySelectorAll(".edit");
   const close = document.querySelectorAll(".close");
   const tebusan_pelanggaran = document.getElementById("tebusan-pelanggaran");

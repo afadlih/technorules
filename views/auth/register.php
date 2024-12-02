@@ -6,7 +6,7 @@ $halaman_khusus = true;
 include "common/components/layouts/dpa.php";
 ?>
 
-<main class="h-screen w-full grid place-items-center bg-[#0242a6] lg:h-[185vh] sm:h-[160vh]">
+<main class="h-screen w-full grid place-items-center bg-[#0242a6] lg:h-[195vh] sm:h-[170vh]">
     <section class="mx-auto flex h-4/5 w-4/5 bg-[#eceff2] rounded-3xl overflow-hidden gap-10 lg:px-14 lg:py-8">
         <div class="relative w-2/5 hidden lg:inline">
             <img
@@ -29,7 +29,7 @@ include "common/components/layouts/dpa.php";
                         id="full_name"
                         name="full_name"
                         type="text"
-                        placeholder="Masukkan Lengkap"
+                        placeholder="Masukkan Nama Lengkap"
                         class="bg-[#ececec] text-sm px-4 py-3 rounded-lg"
                         required
                     />
@@ -48,6 +48,23 @@ include "common/components/layouts/dpa.php";
                         required
                     />
                     <span id="error_username" class="text-red-600 text-sm italic"></span>
+                </div>
+                <div class="flex flex-col gap-3 mt-2">
+                    <label for="role" class="font-semibold text-lg text-[#0242a6]">
+                        Peran
+                    </label>
+                    <select
+                        id="role"
+                        name="role"
+                        class="bg-[#ececec] text-sm px-4 py-3 rounded-lg"
+                        required
+                    >
+                        <option value="" disabled selected>Pilih peran</option>
+                        <option value="Mahasiswa">Mahasiswa</option>
+                        <option value="Komisi Disiplin">Komisi Disiplin</option>
+                        <option value="DPA">DPA</option>
+                    </select>
+                    <span id="error_role" class="text-red-600 text-sm italic"></span>
                 </div>
                 <div class="flex flex-col gap-3 mt-2">
                     <label for="password" class="font-semibold text-lg text-[#0242a6]">

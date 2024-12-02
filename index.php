@@ -16,6 +16,10 @@ Router::get("/dpa/class", function () {
     return Router::view("dosen/dpa/class");
 });
 
+Router::get("/dpa/profile", function () {
+    return Router::view("dosen/dpa/profile");
+});
+
 
 // Admin
 Router::get("/admin", function () {
