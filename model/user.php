@@ -1,49 +1,70 @@
 <?php
-
-class user
-{
+class UserModel {
     private $conn;
 
-    public function __construct($database_connection)
-    {
-        $this->conn = $database_connection;
+    public function __construct($connection) {
+        $this->conn = $connection;
     }
 
-    public function login($username, $password)
-    {
-        $query = "SELECT * FROM users WHERE username = ?";
-        $params = array($username);
-        $stmt = sqlsrv_query($this->conn, $query, $params);
+    public function login($username, $password) {
+        $stmt = $this->conn->prepare("SELECT 
+            'mahasiswa' as user_type, 
+            id_mahasiswa as user_id, 
+            nim, 
+            nama_mahasiswa 
+            FROM mahasiswa 
+            WHERE nim = ? AND password_mahasiswa = ?");
+        $stmt->execute([$username, $password]);
+        $mahasiswa = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($stmt === false) {
-            return false;
+        if ($mahasiswa) {
+            return [
+                'status' => true,
+                'user_type' => 'mahasiswa',
+                'user_id' => $mahasiswa['user_id'],
+                'nama' => $mahasiswa['nama_mahasiswa']
+            ];
         }
 
-        if (sqlsrv_has_rows($stmt)) {
-            $user = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
-            if (password_verify($password, $user['password'])) {
-                return $user;
-            }
-        }
-        return false;
-    }
+        $stmt = $this->conn->prepare("SELECT 
+            'dosen' as user_type, 
+            id_dosen as user_id, 
+            nidn, 
+            nama_dosen 
+            FROM dosen 
+            WHERE nidn = ? AND password_dosen = ?");
+        $stmt->execute([$username, $password]);
+        $dosen = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    public function getUserRole($user_id)
-    {
-        $query = "SELECT r.role_name FROM roles r 
-                  JOIN user_roles ur ON r.id = ur.role_id 
-                  WHERE ur.user_id = ?";
-        $params = array($user_id);
-        $stmt = sqlsrv_query($this->conn, $query, $params);
-
-        if ($stmt === false) {
-            return false;
+        if ($dosen) {
+            return [
+                'status' => true,
+                'user_type' => 'dosen',
+                'user_id' => $dosen['user_id'],
+                'nama' => $dosen['nama_dosen']
+            ];
         }
 
-        if (sqlsrv_has_rows($stmt)) {
-            $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
-            return $row['role_name'];
+        $stmt = $this->conn->prepare("SELECT 
+            'admin' as user_type, 
+            id_admin as user_id, 
+            nip 
+            FROM admintatib 
+            WHERE nip = ? AND password_admin = ?");
+        $stmt->execute([$username, $password]);
+        $admin = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($admin) {
+            return [
+                'status' => true,
+                'user_type' => 'admin',
+                'user_id' => $admin['user_id']
+            ];
         }
-        return false;
+
+        return [
+            'status' => false, 
+            'message' => 'Login gagal'
+        ];
     }
 }
