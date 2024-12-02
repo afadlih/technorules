@@ -22,6 +22,11 @@
     transition: background-color 5000s ease-in-out 0s;
     -webkit-text-fill-color: #fff !important;
   }
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
 }
 
 @media screen and (max-width: 324px) {
