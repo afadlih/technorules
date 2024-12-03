@@ -25,16 +25,16 @@
         ?>
     </section>
     <section class="flex flex-col px-4 pt-2 pb-8">
-        <div class="flex items-center justify-center w-full gap-3 bg-[#0a97ff] px-4 py-2 rounded-lg cursor-pointer">
+        <a href="/technorules/komdis/profile" class="flex items-center justify-center w-full gap-3 bg-[#0a97ff] px-4 py-2 rounded-lg cursor-pointer">
             <img src="/technorules/images/user.svg" alt="User" />
-            <span class="text-white flex-1">
-                <h5 class="font-bold">Malik S.T.,M.T.</h5>
-                <h6 class="text-xs">Dosen</h6>
+            <span class="text-white flex-1 hidden lg:block">
+                <h5 class="font-bold">Putri</h5>
+                <h6 class="text-xs">Komisi Disiplin</h6>
             </span>
-        </div>
+        </a>
         <div class="mt-4 flex items-center justify-center w-full gap-3 bg-[#FF1111] px-4 py-3 rounded-lg cursor-pointer">
             <img src="/technorules/images/logout.svg" alt="Logout" />
-            <h5 class="text-white flex-1 font-semibold">Keluar</h5>
+            <h5 class="text-white flex-1 font-semibold hidden lg:block">Keluar</h5>
         </div>
     </section>
 </aside>

@@ -68,5 +68,13 @@ Router::get("/komdis", function () {
     return Router::view("dosen/komdis/dashboard");
 });
 
+Router::get("/komdis/evaluate", function () {
+    return Router::view("dosen/komdis/evaluate");
+});
+
+Router::get("/komdis/profile", function () {
+    return Router::view("dosen/komdis/profile");
+});
+
 
 Router::run();
