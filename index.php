@@ -38,6 +38,10 @@ Router::get("/admin/data-pelanggaran", function () {
     return Router::view("admin/data-pelanggaran");
 });
 
+Router::get("/admin/profile", function () {
+    return Router::view("admin/profile");
+});
+
 
 // Mahasiswa
 Router::get("/mahasiswa", function () {
