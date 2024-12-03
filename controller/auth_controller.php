@@ -2,48 +2,39 @@
 
 class auth_controller {
     private $userModel;
-    
-    public function __construct(User $userModel) {
-        session_start();
-        $this->userModel = $userModel;
+
+    public function __construct($connection) {
+        $this->userModel = new UserModel($connection);
     }
-    
+
     public function login($username, $password) {
-        if (empty($username) || empty($password)) {
-            $_SESSION['error'] = "Username dan password harus diisi";
-            header("Location: /login");
-            exit();
-        }
-        
-        $user = $this->userModel->login($username, $password);
-        
-        if ($user) {
-            $role = $this->userModel->getUserRole($user['id']);
+        session_start();
+
+        $result = $this->userModel->login($username, $password);
+
+        if ($result['status']) {
+            $_SESSION['user_id'] = $result['user_id'];
+            $_SESSION['user_type'] = $result['user_type'];
             
-            switch ($role) {
-                case 'admin':
-                    header("Location: /admin/dashboard");
+            switch ($result['user_type']) {
+                case 'mahasiswa':
+                    $_SESSION['nama'] = $result['nama'];
+                    header('Location: /mahasiswa/dashboard');
                     break;
                 case 'dosen':
-                    header("Location: /dosen/dashboard");
+                    $_SESSION['nama'] = $result['nama'];
+                    header('Location: /dosen/dashboard');
                     break;
-                case 'dosen_dpa':
-                    header("Location: /dosen/dpa/dashboard");
-                    break;
-                case 'dosen_komdis':
-                    header("Location: /dosen/komisi-disiplin/dashboard");
-                    break;
-                case 'mahasiswa':
-                    header("Location: /mahasiswa/dashboard");
+                case 'admin':
+                    header('Location: /admin/dashboard');
                     break;
             }
-            exit();
+            exit;
         } else {
-            $_SESSION['error'] = "Username atau password salah";
-            header("Location: /login");
-            exit();
+            $_SESSION['error'] = $result['message'];
+            header('Location: login.php');
+            exit;
         }
     }
 }
-
 ?>
