@@ -20,7 +20,7 @@ include "common/components/layouts/dpa.php";
             <h1 class="text-3xl font-bold text-[#0242a6]">
                 Login
             </h1>
-            <form action="controller/submit.php" method="post" class="w-4/5">
+            <form action="../../controller/auth_controller.php" method="post" class="w-4/5">
                 <div class="flex flex-col gap-3 mt-10">
                     <label for="username" class="font-semibold text-lg text-[#0242a6]">
                         Nama Pengguna (NIM/NIP)
