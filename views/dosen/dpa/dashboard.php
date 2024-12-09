@@ -11,9 +11,7 @@ include "common/components/layouts/dpa.php";
         <?php require_once "common/components/profile-card/dpa.php"; ?>
         <div class="mt-8 mb-14 w-[90%] mx-auto overflow-x-scroll h-full px-10 rounded-xl border-2 border-[#afbbca]">
             <h4 class="mt-5 cursor-default text-center text-2xl font-bold text-[#414f63]">Pelanggaran</h4>
-            <?php
-            require_once "views/dosen/components/dashboard.php";
-            ?>
+            <?php require_once "views/dosen/components/dashboard.php"; ?>
         </div>
     </section>
 </main>
