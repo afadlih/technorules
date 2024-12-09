@@ -1,70 +1,55 @@
 <?php
-class UserModel {
+
+require_once 'controller/connection.php';
+
+use controller\auth_controller;
+
+class user {
     private $conn;
 
-    public function __construct($connection) {
-        $this->conn = $connection;
+    public function __construct($database_connection) {
+        $this->conn = $database_connection;
     }
 
     public function login($username, $password) {
-        $stmt = $this->conn->prepare("SELECT 
-            'mahasiswa' as user_type, 
-            id_mahasiswa as user_id, 
-            nim, 
-            nama_mahasiswa 
-            FROM mahasiswa 
-            WHERE nim = ? AND password_mahasiswa = ?");
-        $stmt->execute([$username, $password]);
-        $mahasiswa = $stmt->fetch(PDO::FETCH_ASSOC);
+        session_start();
 
-        if ($mahasiswa) {
-            return [
-                'status' => true,
-                'user_type' => 'mahasiswa',
-                'user_id' => $mahasiswa['user_id'],
-                'nama' => $mahasiswa['nama_mahasiswa']
-            ];
-        }
+        $error = '';
 
-        $stmt = $this->conn->prepare("SELECT 
-            'dosen' as user_type, 
-            id_dosen as user_id, 
-            nidn, 
-            nama_dosen 
-            FROM dosen 
-            WHERE nidn = ? AND password_dosen = ?");
-        $stmt->execute([$username, $password]);
-        $dosen = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($dosen) {
-            return [
-                'status' => true,
-                'user_type' => 'dosen',
-                'user_id' => $dosen['user_id'],
-                'nama' => $dosen['nama_dosen']
-            ];
-        }
-
-        $stmt = $this->conn->prepare("SELECT 
-            'admin' as user_type, 
-            id_admin as user_id, 
-            nip 
-            FROM admintatib 
-            WHERE nip = ? AND password_admin = ?");
-        $stmt->execute([$username, $password]);
-        $admin = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($admin) {
-            return [
-                'status' => true,
-                'user_type' => 'admin',
-                'user_id' => $admin['user_id']
-            ];
-        }
-
-        return [
-            'status' => false, 
-            'message' => 'Login gagal'
-        ];
+            if (empty($username) || empty($password)) {
+                $error = "Please enter both username and password.";
+            } else {
+                try {
+                    $stmt = $this->conn->prepare("SELECT * 
+                        FROM usertatib
+                        INNER JOIN mahasiswa
+                        ON usertatib.id_mahasiswa = mahasiswa.id_mahasiswa
+                        WHERE usertatib.username = ? AND usertatib.passwordusr = ?");
+                    $stmt->execute([$username, $password]);
+                    
+                    if ($stmt->rowCount() == 1) {
+                        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                        
+                        $_SESSION['user_id'] = $user['username'];
+                        
+                        if ($user['id_mahasiswa'] !== null) {
+                            $_SESSION['mahasiswa_id'] = $user['id_mahasiswa'];
+                            header("Location: mahasiswa/dashboard");
+                        } elseif ($user['id_dosen'] !== null) {
+                            $_SESSION['dosen_id'] = $user['id_dosen'];
+                            header("Location: dpa/dashboard");
+                        } elseif ($user['id_admin'] !== null) {
+                            $_SESSION['admin_id'] = $user['id_admin'];
+                            header("Location: admin/dashboard");
+                        }
+                        
+                        exit();
+                    } else {
+                        $error = "Invalid username or password.";
+                    }
+                } catch(PDOException $e) {
+                    $error = "Login error: " . $e->getMessage();
+                }
+            }
     }
 }
