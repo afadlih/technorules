@@ -15,6 +15,28 @@ include "common/components/layouts/dpa.php";
         </div>
         <div class="h-full w-full flex flex-col items-center justify-center bg-white rounded-3xl p-8 lg:w-3/5">
             <h1 class="text-3xl font-bold text-[#0242a6]">Login</h1>
+            <?php if (isset($_GET['error'])) { ?>
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">Error!</strong>
+                <span class="block sm:inline">
+                    <?php
+                        if ($_GET['error'] == "invalid_username") {
+                            echo "Username tidak ditemukan.";
+                        } elseif ($_GET['error'] == "invalid_password") {
+                            echo "Password salah.";
+                        } else {
+                            echo "Login gagal. Silakan coba lagi.";
+                        }
+                        ?>
+                </span>
+            </div>
+            <?php } ?>
+            <?php if (isset($_GET['success'])) { ?>
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">Sukses!</strong>
+                <span class="block sm:inline">Registrasi berhasil. Silakan login.</span>
+            </div>
+            <?php } ?>
             <form action="/technorules/controller/auth_controller.php" method="post" class="w-4/5">
                 <div class="flex flex-col gap-3 mt-10">
                     <label for="username" class="font-semibold text-lg text-[#0242a6]">
@@ -31,7 +53,7 @@ include "common/components/layouts/dpa.php";
                         class="bg-[#ececec] text-sm px-4 py-3 rounded-lg" required />
                 </div>
                 <div class="mt-2 flex">
-                    <input type="checkbox" name="checkbox" id="checkbox" />
+                    <input type="checkbox" name="checkbox" id="checkbox" onclick="togglePasswordVisibility()" />
                     <label for="checkbox" class="text-sm ml-2">Tampilkan Kata Sandi</label>
                 </div>
                 <button type="submit"
@@ -47,3 +69,12 @@ include "common/components/layouts/dpa.php";
         </div>
     </section>
 </main>
+
+<script>
+//Memastikan halaman dimuat ulang saat menavigasi kembali
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        location.reload();
+    }
+});
+</script>
