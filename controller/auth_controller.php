@@ -3,8 +3,8 @@ require_once '../model/user.php';
 require_once '../controller/connection.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $username = htmlspecialchars(trim($_POST['username']));
+    $password = htmlspecialchars(trim($_POST['password']));
 
     $user = new User($conn); 
     $login_result = $user->login($username, $password);
@@ -12,13 +12,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($login_result === "success") {
         // Login berhasil, tidak perlu tindakan di sini
     } elseif ($login_result === "invalid_password") {
-        header("Location: ../views/login.php?error=invalid_password"); 
+        echo "<script>alert('Password yang anda masukkan salah!'); window.location.href='/technorules/login';</script>";
     } elseif ($login_result === "invalid_username") {
-        header("Location: ../views/login.php?error=invalid_username"); 
+        echo "<script>alert('Username yang anda masukkan salah!'); window.location.href='/technorules/login';</script>";
     } elseif ($login_result === "empty_fields") {
-        header("Location: ../views/login.php?error=empty_fields"); 
+        echo "<script>alert('Masukkan username dan password terlebih dahulu!'); window.location.href='/technorules/login';</script>";
     } else {
-        header("Location: ../views/login.php?error=login_failed"); 
+        header("Location: /login"); 
     }
 }
 ?>
