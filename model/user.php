@@ -1,55 +1,66 @@
 <?php
 
-require_once 'controller/connection.php';
+require_once '../controller/connection.php';
 
-use controller\auth_controller;
-
-class user {
+class User
+{
     private $conn;
 
-    public function __construct($database_connection) {
-        $this->conn = $database_connection;
+    public function __construct($db)
+    {
+        $this->conn = $db;
     }
 
-    public function login($username, $password) {
+    public function login($username, $password)
+    {
         session_start();
 
-        $error = '';
+        if (empty($username) || empty($password)) {
+            echo "Please enter both username and password.";
+            return false;
+        }
 
-            if (empty($username) || empty($password)) {
-                $error = "Please enter both username and password.";
-            } else {
-                try {
-                    $stmt = $this->conn->prepare("SELECT * 
-                        FROM usertatib
-                        INNER JOIN mahasiswa
-                        ON usertatib.id_mahasiswa = mahasiswa.id_mahasiswa
-                        WHERE usertatib.username = ? AND usertatib.passwordusr = ?");
-                    $stmt->execute([$username, $password]);
-                    
-                    if ($stmt->rowCount() == 1) {
-                        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-                        
-                        $_SESSION['user_id'] = $user['username'];
-                        
-                        if ($user['id_mahasiswa'] !== null) {
-                            $_SESSION['mahasiswa_id'] = $user['id_mahasiswa'];
-                            header("Location: mahasiswa/dashboard");
-                        } elseif ($user['id_dosen'] !== null) {
-                            $_SESSION['dosen_id'] = $user['id_dosen'];
-                            header("Location: dpa/dashboard");
-                        } elseif ($user['id_admin'] !== null) {
-                            $_SESSION['admin_id'] = $user['id_admin'];
-                            header("Location: admin/dashboard");
-                        }
-                        
-                        exit();
+        try {
+            $stmt = $this->conn->prepare("SELECT * 
+                                            FROM usertatib
+                                            LEFT JOIN mahasiswa ON usertatib.id_mahasiswa = mahasiswa.id_mahasiswa
+                                            LEFT JOIN dosen ON usertatib.id_dosen = dosen.id_dosen
+                                            LEFT JOIN admintatib ON usertatib.id_admin = admintatib.id_admin
+                                            WHERE usertatib.username = ?");
+            $stmt->execute([$username]);
+
+            if ($stmt->rowCount() > 0) {
+                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if (password_verify($password, $user['passwordusr'])) {
+                    $_SESSION['user_id'] = $user['username'];
+
+                    if ($user['id_mahasiswa'] !== null) {
+                        $_SESSION['mahasiswa_id'] = $user['id_mahasiswa'];
+                        header("Location: mahasiswa/dashboard");
+                    } elseif ($user['id_dosen'] !== null) {
+                        $_SESSION['dosen_id'] = $user['id_dosen'];
+                        header("Location: dpa/dashboard");
+                    } elseif ($user['id_admin'] !== null) {
+                        $_SESSION['admin_id'] = $user['id_admin'];
+                        header("Location: admin/dashboard");
                     } else {
-                        $error = "Invalid username or password.";
+                        echo "Error: User has no assigned role.";
+                        return false;
                     }
-                } catch(PDOException $e) {
-                    $error = "Login error: " . $e->getMessage();
+
+                    exit();
+                } else {
+                    echo "Invalid username or password.";
+                    return false;
                 }
+            } else {
+                echo "Invalid username or password.";
+                return false;
             }
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
     }
 }
