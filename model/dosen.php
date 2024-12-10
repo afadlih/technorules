@@ -4,9 +4,8 @@ require_once 'controller/connection.php';
 class dosen {
     private $conn;
 
-    public function __construct() {
-        $db = new Database();
-        $this->conn = $db->getConnection();
+    public function __construct($db) {
+        $this->conn = $db;
     }
 
     public function getAllDosen() {
@@ -22,39 +21,27 @@ class dosen {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function createDosen($data) {
-        $query = "INSERT INTO dosen (nidn, nama_dosen, email, status_dosen) 
-                  VALUES (?, ?, ?, ?)";
+    public function getDashboard(){
+        $query = "SELECT TOP 5 dp.*, m.nim, m.nama_mahasiswa, m.kelas
+                 FROM datapelanggaran dp
+                 INNER JOIN mahasiswa m ON dp.id_mahasiswa = m.id_mahasiswa
+                 LEFT JOIN komdis_pelanggaran kp ON dp.id_pelanggaran = kp.id_pelanggaran
+                 LEFT JOIN tebusan t ON dp.id_pelanggaran = t.id_pelanggaran
+                 ORDER BY dp.id_pelanggaran DESC";
         $stmt = $this->conn->prepare($query);
-        return $stmt->execute([
-            $data['nidn'], 
-            $data['nama_dosen'], 
-            $data['email'], 
-            $data['status_dosen']
-        ]);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function updateDosen($id, $data) {
-        $query = "UPDATE dosen SET 
-                  nidn = ?, 
-                  nama_dosen = ?, 
-                  email = ?, 
-                  status_dosen = ? 
-                  WHERE id_dosen = ?";
+    public function getPelanggaranTingkat1() {
+        $query = "SELECT dp.*, m.nim, m.nama_mahasiswa, dp.deskripsi_pelanggaran
+                 FROM datapelanggaran dp
+                 INNER JOIN mahasiswa m ON dp.id_mahasiswa = m.id_mahasiswa
+                 WHERE dp.tingkat_pelanggaran = '1'
+                 ORDER BY dp.id_pelanggaran DESC";
         $stmt = $this->conn->prepare($query);
-        return $stmt->execute([
-            $data['nidn'], 
-            $data['nama_dosen'], 
-            $data['email'], 
-            $data['status_dosen'], 
-            $id
-        ]);
-    }
-
-    public function deleteDosen($id) {
-        $query = "DELETE FROM dosen WHERE id_dosen = ?";
-        $stmt = $this->conn->prepare($query);
-        return $stmt->execute([$id]);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 ?>

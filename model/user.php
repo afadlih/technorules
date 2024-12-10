@@ -38,13 +38,17 @@ class User
 
                     if ($user['id_mahasiswa']) {
                         $_SESSION['mahasiswa_id'] = $user['id_mahasiswa'];
-                        header("Location: /mahasiswa/dashboard");
+                        header("Location: ../mahasiswa");
                     } elseif ($user['id_dosen']) {
                         $_SESSION['dosen_id'] = $user['id_dosen'];
-                        header("Location: /dpa/dashboard");
+                        if ($user['role'] === 'komdis') {
+                            header("Location: ../komdis");
+                        } else {
+                            header("Location: ../dpa");
+                        }
                     } elseif ($user['id_admin']) {
                         $_SESSION['admin_id'] = $user['id_admin'];
-                        header("Location: /admin");
+                        header("Location: ../admin");
                     } else {
                         return "no_role"; // User tidak memiliki peran
                     }
@@ -61,7 +65,11 @@ class User
                             header("Location: ../mahasiswa");
                         } elseif ($user['id_dosen']) {
                             $_SESSION['dosen_id'] = $user['id_dosen'];
-                            header("Location: ../dpa");
+                            if ($user['role'] === 'komdis') {
+                                header("Location: ../komdis");
+                            } else {
+                                header("Location: ../dpa");
+                            }
                         } elseif ($user['id_admin']) {
                             $_SESSION['admin_id'] = $user['id_admin'];
                             header("Location: ../admin");
