@@ -82,3 +82,24 @@ CREATE TABLE komdis_pelanggaran (
 
 
 USE sistatib;
+CREATE PROCEDURE GetDosen @dosen_id INT
+AS
+BEGIN
+    IF @dosen_id IS NULL
+        SELECT * FROM dosen;
+    ELSE
+        SELECT * FROM dosen WHERE id_dosen = @dosen_id;
+END;
+
+EXEC GetDosen @dosen_id = '2';
+
+CREATE PROCEDURE GetMahasiswa @mahasiswa_id INT
+AS
+BEGIN
+    IF @mahasiswa_id IS NULL
+        SELECT * FROM mahasiswa;
+    ELSE
+        SELECT * FROM mahasiswa WHERE id_mahasiswa = @mahasiswa_id;
+END;
+
+EXEC GetMahasiswa @mahasiswa_id = '2';
