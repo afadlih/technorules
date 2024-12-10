@@ -82,4 +82,19 @@ class User
             return "login_failed";
         }
     }
+
+    public function registerStudent($full_name, $username, $password)
+    {
+        try {
+            $password_hash = password_hash($password, PASSWORD_BCRYPT);
+            $stmt = $this->conn->prepare("INSERT INTO usertatib (username, passwordusr, id_mahasiswa) VALUES (:username, :passwordusr, (SELECT id_mahasiswa FROM mahasiswa WHERE nim = :username))");
+            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':passwordusr', $password_hash);
+            $stmt->execute();
+            return "success";
+        } catch (PDOException $e) {
+            error_log("Registration error: " . $e->getMessage());
+            return "registration_failed";
+        }
+    }
 }
