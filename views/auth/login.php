@@ -57,8 +57,7 @@ include "common/components/layouts/dpa.php";
                     <label for="checkbox" class="text-sm ml-2">Tampilkan Kata Sandi</label>
                 </div>
                 <button type="submit"
-                    class="mt-7 w-full bg-[#0242a6] text-white font-semibold text-sm px-4 py-3 rounded-lg transition-all duration-300 ease-in-out hover:bg-[#173f80]"
-                    onclick="this.disabled=true; this.textContent='Loading...'; this.form.submit();">
+                    class="mt-7 w-full bg-[#0242a6] text-white font-semibold text-sm px-4 py-3 rounded-lg transition-all duration-300 ease-in-out hover:bg-[#173f80]">
                     Login
                 </button>
             </form>

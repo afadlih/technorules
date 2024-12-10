@@ -3,23 +3,23 @@
     <div class="mb-8 cursor-default grid grid-cols-2 gap-6 mt-6">
         <div>
             <h4 class="font-bold text-[#414f63]">Nama Lengkap</h4>
-            <h5 class="text-[#647993]">Baskara</h5>
+            <h5 class="text-[#647993]"><?php echo $profile['nama_mahasiswa']; ?></h5>
         </div>
         <div>
             <h4 class="font-bold text-[#414f63]">Program Studi</h4>
-            <h5 class="text-[#647993]">D-IV Teknik Informatika</h5>
+            <h5 class="text-[#647993]"><?php echo $profile['nama_prodi']; ?></h5>
         </div>
         <div>
             <h4 class="font-bold text-[#414f63]">NIM</h4>
-            <h5 class="text-[#647993]">23412778198</h5>
+            <h5 class="text-[#647993]"><?php echo $profile['nim']; ?></h5>
         </div>
         <div>
             <h4 class="font-bold text-[#414f63]">Kelas</h4>
-            <h5 class="text-[#647993]">2H</h5>
+            <h5 class="text-[#647993]"><?php echo $profile['kelas']; ?></h5>
         </div>
         <div>
             <h4 class="font-bold text-[#414f63]">Status</h4>
-            <span class="flex items-center gap-2"></span>
+            <h5 class="text-[#647993]"><?php echo $profile['status_nama']; ?></h5>
         </div>
     </div>
 </div>
