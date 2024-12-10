@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif ($login_result === "empty_fields") {
         echo "<script>alert('Masukkan username dan password terlebih dahulu!'); window.location.href='/technorules/login';</script>";
     } else {
-        header("Location: /login"); 
+        header("Location: /technorules/login"); 
     }
 }
 ?>
