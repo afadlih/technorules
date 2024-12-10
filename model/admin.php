@@ -159,4 +159,39 @@ class Admin
         $stmt = $this->conn->prepare($query);
         return $stmt->execute($data);
     }
+
+    public function notifyAdminForValidation($username)
+    {
+        try {
+            $stmt = $this->conn->prepare("INSERT INTO notifications (message, status) VALUES (:message, 'unread')");
+            $message = "New registration request from user: " . $username;
+            $stmt->bindParam(':message', $message);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            error_log("Notification error: " . $e->getMessage());
+        }
+    }
+
+    public function getNotifications()
+    {
+        try {
+            $stmt = $this->conn->prepare("SELECT * FROM notifications WHERE status = 'unread' ORDER BY created_at DESC");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Fetch notifications error: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function markNotificationAsRead($notification_id)
+    {
+        try {
+            $stmt = $this->conn->prepare("UPDATE notifications SET status = 'read' WHERE id = :id");
+            $stmt->bindParam(':id', $notification_id);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            error_log("Mark notification as read error: " . $e->getMessage());
+        }
+    }
 }
