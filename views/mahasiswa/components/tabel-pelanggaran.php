@@ -1,1 +1,1 @@
-<h5 class="mt-4 text-center">Surat pernyataan tidak tersedia.</h5>
+<h5 class="mt-4 text-center">Tidak ada pelanggaran dilakukan.</h5>
