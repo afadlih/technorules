@@ -1,4 +1,6 @@
 <?php
+require_once './controller/adminController.php';
+
 $judul = "Profil | Tata Tertib Polinema";
 $deskripsi = "";
 $halaman_khusus = false;
@@ -11,34 +13,29 @@ include "common/components/layouts/admin.php";
         <h4 class="mx-auto mt-8 w-[90%] text-3xl font-bold cursor-default text-[#414f63]">
             Profil Saya
         </h4>
-        <?php
-        require_once "controller/connection.php";
-        require_once "model/admin.php";
-
-        $admin = new Admin($conn);
-        $profile = $admin->getProfile($_SESSION['admin_id']); // Assuming session contains admin_id
-
-        echo "<div class='profile-details'>
-                <p>NIP: {$profile['nip']}</p>
-                <p>Nama: {$profile['nama']}</p>
-                <p>Email: {$profile['email']}</p>
-              </div>";
-        ?>
-        <button class="mt-8 w-fit ml-[5%] px-7 py-2.5 font-semibold rounded bg-[#0a97ff] text-[#d2efff]"
-            onclick="showEditForm()">
+        <div class="mx-auto mt-8 px-6 w-[90%] border-2 border-[#afbbca] flex flex-col rounded-xl">
+            <h4 class="mt-5 cursor-default text-xl font-bold text-[#414f63]">Informasi Pribadi</h4>
+            <div class="mb-8 cursor-default grid grid-cols-2 gap-6 mt-6">
+                <div>
+                    <h4 class="font-bold text-[#414f63]">Nama Lengkap</h4>
+                    <h5 class="text-[#647993]"><?php echo $data['name']; ?></h5>
+                </div>
+                <div>
+                    <h4 class="font-bold text-[#414f63]">Jabatan</h4>
+                    <h5 class="text-[#647993]"><?php echo $data['jabatan']; ?></h5>
+                </div>
+                <div>
+                    <h4 class="font-bold text-[#414f63]">NIP</h4>
+                    <h5 class="text-[#647993]"><?php echo $data['nip']; ?></h5>
+                </div>
+                <div>
+                    <h4 class="font-bold text-[#414f63]">Email</h4>
+                    <h5 class="text-[#647993]"><?php echo $data['email']; ?></h5>
+                </div>
+            </div>
+        </div>
+        <button class="mt-8 w-fit ml-[5%] px-7 py-2.5 font-semibold rounded bg-[#0a97ff] text-[#d2efff]">
             Edit Profil
         </button>
-        <div id="editForm" class="hidden">
-            <form method="POST" action="controller/update_profile.php">
-                <input type="text" name="nama" value="<?php echo $profile['nama']; ?>" required>
-                <input type="email" name="email" value="<?php echo $profile['email']; ?>" required>
-                <button type="submit">Simpan</button>
-            </form>
-        </div>
-        <script>
-        function showEditForm() {
-            document.getElementById('editForm').classList.remove('hidden');
-        }
-        </script>
     </section>
 </main>
