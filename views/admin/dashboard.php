@@ -4,11 +4,6 @@ $deskripsi = "Selamat datang di Tata Tertib Polinema.";
 $halaman_khusus = false;
 
 include "common/components/layouts/admin.php";
-require_once "../../model/admin.php";
-require_once "../../controller/connection.php";
-
-$admin = new Admin($conn);
-$notifications = []; // Disable notifications for now
 ?>
 
 <main class="ml-20 min-h-[140vh] pt-14 h-full bg-[#eceff2] px-10 lg:ml-[5rem] lg:pl-60">
@@ -18,6 +13,5 @@ $notifications = []; // Disable notifications for now
             <h4 class="my-5 cursor-default text-center text-2xl font-bold text-[#414f63]">Pelanggaran</h4>
             <?php require_once "views/admin/components/pelanggaran-terbaru.php" ?>
         </div>
-        <!-- Notifications section is disabled -->
     </section>
 </main>

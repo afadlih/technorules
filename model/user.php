@@ -1,7 +1,5 @@
 <?php
 
-require_once '../controller/connection.php';
-
 class User
 {
     private $conn;

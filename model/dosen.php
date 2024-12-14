@@ -1,7 +1,6 @@
 <?php
-require_once 'controller/connection.php';
 
-class dosen {
+class Dosen {
     private $conn;
 
     public function __construct($db) {
@@ -9,13 +8,13 @@ class dosen {
     }
 
     public function getAllDosen() {
-        $query = "SELECT * FROM dosen";
+        $query = "EXEC GetDosen @dosen_id = NULL";
         $stmt = $this->conn->query($query);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getDosenById($id) {
-        $query = "SELECT * FROM dosen WHERE id_dosen = ?";
+        $query = "EXEC GetDosen @dosen_id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
