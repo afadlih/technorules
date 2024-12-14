@@ -36,8 +36,7 @@ require_once './controller/mahasiswaController.php';
                 <h6 class="text-xs"><?php echo $profile['kelas']; ?></h6>
             </span>
         </a>
-        <a href="/technorules/login" class="mt-4 flex items-center justify-center w-full gap-3 bg-[#FF1111] px-4 py-3 rounded-lg cursor-pointer"
-            onclick="<?php session_destroy(); ?>">
+        <a href="/technorules/logout.php" class="mt-4 flex items-center justify-center w-full gap-3 bg-[#FF1111] px-4 py-3 rounded-lg cursor-pointer">
             <img src="/technorules/images/logout.svg" alt="Logout" />
             <h5 class="text-white flex-1 font-semibold hidden lg:block">Keluar</h5>
         </a>
