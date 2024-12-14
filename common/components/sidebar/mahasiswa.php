@@ -1,3 +1,7 @@
+<?php
+require_once './controller/mahasiswaController.php';
+?>
+
 <aside class="fixed left-0 top-0 h-screen w-[5em] border-r border-gray-200 bg-[#0242a6] shadow-md transition-all duration-300 ease-in-out lg:w-[17rem] flex flex-col">
     <img src="/technorules/images/favicon.ico" alt="Logo Technorules Polinema" class="mx-auto my-4 w-4/5 hidden lg:flex" />
     <img src="/technorules/images/logo.svg" alt="Icon Technorules Polinema" class="mx-auto mt-4 mb-8 w-1/2 lg:hidden" />
@@ -28,13 +32,14 @@
         <a href="/technorules/mahasiswa/profile" class="flex items-center justify-center w-full gap-3 bg-[#0a97ff] px-4 py-2 rounded-lg">
             <img src="/technorules/images/user.svg" alt="User" />
             <span class="text-white flex-1 hidden lg:block">
-                <h5 class="font-bold">Adham</h5>
-                <h6 class="text-xs">Mahasiswa</h6>
+                <h5 class="font-bold"><?php echo $profile['nama_mahasiswa']; ?></h5>
+                <h6 class="text-xs"><?php echo $profile['kelas']; ?></h6>
             </span>
         </a>
-        <div class="mt-4 flex items-center justify-center w-full gap-3 bg-[#FF1111] px-4 py-3 rounded-lg cursor-pointer">
+        <a href="/technorules/login" class="mt-4 flex items-center justify-center w-full gap-3 bg-[#FF1111] px-4 py-3 rounded-lg cursor-pointer"
+            onclick="<?php session_destroy(); ?>">
             <img src="/technorules/images/logout.svg" alt="Logout" />
             <h5 class="text-white flex-1 font-semibold hidden lg:block">Keluar</h5>
-        </div>
+        </a>
     </section>
 </aside>

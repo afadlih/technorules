@@ -1,6 +1,6 @@
 <?php
 require_once '../model/user.php';
-require_once '../controller/connection.php';
+require_once './connection.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = htmlspecialchars(trim($_POST['username']));
