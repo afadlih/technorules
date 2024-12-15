@@ -30,8 +30,7 @@ class User
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($user) {
-                // Gunakan password_verify() untuk password baru yang sudah di-hash
-                if (password_verify($password, $user['password_hash'])) {
+                if (isset($user['password_hash']) && password_verify($password, $user['password_hash'])) {
                     $_SESSION['user_id'] = $user['username'];
 
                     if ($user['id_mahasiswa']) {
