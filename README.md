@@ -1,4 +1,4 @@
-<img src="https://i.ibb.co.com/RyjRmbr/Desain-tanpa-judul.gif" alt="Header.gif" width="1020" />
+<img src="https://i.ibb.co.com/8Nf5vdJ/header.gif" alt="Header.gif" width="1020" />
 
 <h1 align="center">Sistem Informasi Tata Tertib</h1>
 <h3 align="center">TECHNO RULES</h3>
