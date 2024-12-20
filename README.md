@@ -41,7 +41,7 @@ Nama ini merupakan gabungan dari "TECHNO" yang mencerminkan pemanfaatan Teknolog
 * `2341720069` Ahmad Fadlih Wahyu Sardana ![Static Badge](https://img.shields.io/badge/-Project%20Manager-blue)
 * `2341720144` Danendra Nayaka Passadhi ![Static Badge](https://img.shields.io/badge/-Backend%20Developer-green)
 * `2341720003` Fatikah Salsabilla ![Static Badge](https://img.shields.io/badge/-UI/UX%20Designer-purple)
-* `2341720199` Rafi Abiyyu Airlangga ![Static Badge](https://img.shields.io/badge/-Frontend%20Developer-yellow)
+* `2341720115` Rafi Abiyyu Airlangga ![Static Badge](https://img.shields.io/badge/-Frontend%20Developer-yellow)
 
 ---
 
