@@ -1,4 +1,6 @@
 <?php
+require_once "./controller/register_controller.php";
+
 $judul = "Daftar | Tata Tertib Polinema";
 $deskripsi = "";
 $halaman_khusus = true;
@@ -39,18 +41,18 @@ include "common/components/layouts/dpa.php";
             <?php } ?>
             <form action="/technorules/controller/register_controller.php" method="post" class="w-full lg:w-[90%]">
                 <div class="flex flex-col gap-3 mt-10">
-                    <label for="full_name" class="font-semibold text-lg text-[#0242a6]">
+                    <label for="nama_mahasiswa" class="font-semibold text-lg text-[#0242a6]">
                         Nama Lengkap
                     </label>
-                    <input id="full_name" name="full_name" type="text" placeholder="Masukkan Nama Lengkap"
+                    <input id="nama_mahasiswa" name="nama_mahasiswa" type="text" placeholder="Masukkan Nama Lengkap"
                         class="bg-[#ececec] text-sm px-4 py-3 rounded-lg" required />
                     <span id="error_full_name" class="text-red-600 text-sm italic"></span>
                 </div>
                 <div class="flex flex-col gap-3 mt-2">
-                    <label for="username" class="font-semibold text-lg text-[#0242a6]">
+                    <label for="nim" class="font-semibold text-lg text-[#0242a6]">
                         Nama Pengguna (NIM)
                     </label>
-                    <input id="username" name="username" type="text" placeholder="Masukkan NIM"
+                    <input id="nim" name="nim" type="text" placeholder="Masukkan NIM"
                         class="bg-[#ececec] text-sm px-4 py-3 rounded-lg" required />
                     <span id="error_username" class="text-red-600 text-sm italic"></span>
                 </div>
@@ -74,9 +76,8 @@ include "common/components/layouts/dpa.php";
                     <input type="checkbox" name="checkbox" id="checkbox" onclick="togglePasswordVisibility()" />
                     <label for="checkbox" class="text-sm ml-2">Tampilkan Kata Sandi</label>
                 </div>
-                <button id="submit" type="submit"
-                    class="mt-7 w-full bg-[#0242a6] text-white font-semibold text-sm px-4 py-3 rounded-lg transition-all duration-300 ease-in-out hover:bg-[#173f80]"
-                    onclick="this.disabled=true; this.textContent='Loading...'; this.form.submit();">
+                <button type="submit"
+                    class="mt-7 w-full bg-[#0242a6] text-white font-semibold text-sm px-4 py-3 rounded-lg transition-all duration-300 ease-in-out hover:bg-[#173f80]">
                     Register
                 </button>
             </form>
