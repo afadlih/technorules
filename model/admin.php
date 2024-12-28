@@ -12,7 +12,7 @@ class Admin
     // Method to add a new violation
     public function addViolation($data)
     {
-        $query = "INSERT INTO datapelanggaran (id_mahasiswa, deskripsi_pelanggaran, tingkat_pelanggaran, id_admin) VALUES (:id_mahasiswa, :deskripsi_pelanggaran, :tingkat_pelanggaran, :id_admin)";
+        $query = "INSERT INTO datapelanggaran (nim, deskripsi_pelanggaran, tingkat_pelanggaran, id_admin) VALUES (:nim, :deskripsi_pelanggaran, :tingkat_pelanggaran, :id_admin)";
         $stmt = $this->conn->prepare($query);
         $stmt->execute($data);
     }
@@ -110,6 +110,21 @@ class Admin
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function manageViolations($id_pelanggaran, $data)
+    {
+        $query = "UPDATE datapelanggaran SET 
+                 deskripsi_pelanggaran = :deskripsi_pelanggaran, 
+                 tingkat_pelanggaran = :tingkat_pelanggaran, 
+                 id_admin = :id_admin,
+                 tanggal_pelanggaran = :tanggal_pelanggaran,
+                 id_mahasiswa = (SELECT id_mahasiswa FROM mahasiswa WHERE nim = :nim)
+                 WHERE id_pelanggaran = :id_pelanggaran";
+        $stmt = $this->conn->prepare($query);
+        $data['id_pelanggaran'] = $id_pelanggaran;
+        $data['nim'] = $data['id_mahasiswa'];
+        return $stmt->execute($data);
+    }
+
     // Method untuk validasi pelanggaran
     public function validateViolation($id_pelanggaran, $status)
     {
@@ -194,4 +209,35 @@ class Admin
             error_log("Mark notification as read error: " . $e->getMessage());
         }
     }
+    
+    public function createMhs($nim, $nama_mahasiswa, $status_mhs, $passwordusr) {
+        // Insert into mahasiswa table
+        $query = "INSERT INTO mahasiswa (nim, nama_mahasiswa, status_mhs) 
+                  VALUES (:nim, :nama_mahasiswa, :status_mhs)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([
+            'nim' => $nim,
+            'nama_mahasiswa' => $nama_mahasiswa, 
+            'status_mhs' => $status_mhs,
+        ]);
+
+        // Get the last inserted id_mahasiswa
+        $id_mahasiswa = $this->conn->lastInsertId();
+
+        $id_admin = '1';
+
+        // Insert into usertatib table
+        $query2 = "INSERT INTO usertatib (username, passwordusr, id_mahasiswa, id_admin) 
+                   VALUES (:username, :passwordusr, :id_mahasiswa, :id_admin)";
+        $stmt2 = $this->conn->prepare($query2);
+        $stmt2->execute([
+            'username' => $nim,
+            'passwordusr' => $passwordusr,
+            'id_mahasiswa' => $id_mahasiswa,
+            'id_admin' => $id_admin
+        ]);
+        
+        return $id_mahasiswa;
+    }
+
 }
