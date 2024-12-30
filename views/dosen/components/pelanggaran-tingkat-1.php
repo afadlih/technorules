@@ -13,7 +13,6 @@ $pelanggaranTingkat1 = $dosen->getPelanggaranTingkat1();
             <th class="px-4 py-2">NIM</th>
             <th class="px-4 py-2">Nama</th>
             <th class="px-4 py-2">Deskripsi</th>
-            <th class="px-4 py-2">Tanggal</th>
             <th class="px-4 py-2">Bukti</th>
             <th class="px-4 py-2">Aksi</th>
         </tr>
@@ -25,7 +24,6 @@ $pelanggaranTingkat1 = $dosen->getPelanggaranTingkat1();
                 <td class="px-4 py-2"><?php echo $pelanggaran['nim']; ?></td>
                 <td class="px-4 py-2"><?php echo $pelanggaran['nama_mahasiswa']; ?></td>
                 <td class="px-4 py-2"><?php echo $pelanggaran['deskripsi_pelanggaran']; ?></td>
-                <td class="px-4 py-2"><?php echo $pelanggaran['tanggal_pelanggaran']; ?></td>
                 <td class="px-4 py-2">
                     <button class="flex px-4 py-2 bg-[#0a97ff] text-white rounded-md transition-all duration-300 ease-in-out hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600">
                         <img src="images/lihat.svg" alt="" class="mr-3" />
