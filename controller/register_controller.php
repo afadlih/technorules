@@ -14,10 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     $user = new Admin($conn);
-    $result = $user->createMhs($username, $nama_mahasiswa, $status_mhs = 'A', $password);
+    $result = $user->createMhs($username, $nama_mahasiswa, $status_mhs = 'A', $kelas = '-', $id_prodi = 1, $password);
 
     if ($result) {
-        header("Location: /technorules/login?success=registration_successful");
+        header("Location: /technorules/login?success=Registrasi berhasil, silahkan login");
     } else {
         header("Location: /technorules/register?error=" . $result);
     }

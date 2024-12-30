@@ -8,38 +8,13 @@ class Admin
     {
         $this->conn = $db;
     }
-
-    // Method to add a new violation
-    public function addViolation($data)
-    {
-        $query = "INSERT INTO datapelanggaran (nim, deskripsi_pelanggaran, tingkat_pelanggaran, id_admin) VALUES (:nim, :deskripsi_pelanggaran, :tingkat_pelanggaran, :id_admin)";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute($data);
-    }
-
-    // Method to add a new lecturer
-    public function addLecturer($data)
-    {
-        $query = "INSERT INTO dosen (nidn, nama_dosen, email, status_dosen, jabatan_dosen, role, id_admin) VALUES (:nidn, :nama_dosen, :email, :status_dosen, :jabatan_dosen, :role, :id_admin)";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute($data);
-    }
-
-    // Method to add a new student
-    public function addStudent($data)
-    {
-        $query = "INSERT INTO mahasiswa (nim, nama_mahasiswa, kelas, status_mhs, id_prodi, id_admin) VALUES (:nim, :nama_mahasiswa, :kelas, :status_mhs, :id_prodi, :id_admin)";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute($data);
-    }
-
+    
     // Method to fetch all violations with student details
     public function getViolations()
     {
-        $query = "SELECT dp.*, m.nim, m.nama_mahasiswa, m.kelas 
-                 FROM datapelanggaran dp
-                 INNER JOIN mahasiswa m ON dp.id_mahasiswa = m.id_mahasiswa
-                 ORDER BY dp.id_pelanggaran DESC";
+        $query = "SELECT * 
+                 FROM pelanggaran_rules
+                 ORDER BY id_rules ASC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -48,7 +23,7 @@ class Admin
     // Method to fetch all lecturers with roles
     public function getLecturers()
     {
-        $query = "SELECT id_dosen, nidn, nama_dosen, email, status_dosen, jabatan_dosen, role 
+        $query = "SELECT id_dosen, nidn, nama_dosen, email, jabatan_dosen, status_dosen, role
                  FROM dosen 
                  ORDER BY nama_dosen ASC";
         $stmt = $this->conn->prepare($query);
@@ -63,7 +38,7 @@ class Admin
                  FROM mahasiswa m
                  INNER JOIN prodi p ON m.id_prodi = p.id_prodi
                  INNER JOIN status_mhs sm ON m.status_mhs = sm.id_status_mhs
-                 ORDER BY m.nama_mahasiswa ASC";
+                 ORDER BY m.nama_mahasiswa DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -81,7 +56,7 @@ class Admin
         $stats['total_mahasiswa'] = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
 
         // Total pelanggaran
-        $query = "SELECT COUNT(*) as total FROM datapelanggaran";
+        $query = "SELECT COUNT(*) as total FROM pelanggaran_rules";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $stats['total_pelanggaran'] = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
@@ -99,11 +74,12 @@ class Admin
     public function getRecentViolations()
     {
         $query = "SELECT TOP 5 dp.*, m.nim, m.nama_mahasiswa, m.kelas,
-                 kp.keputusan, t.kegiatan_tebusan
+                 kp.keputusan, t.kegiatan_tebusan, r.tingkat_pelanggaran
                  FROM datapelanggaran dp
                  INNER JOIN mahasiswa m ON dp.id_mahasiswa = m.id_mahasiswa
                  LEFT JOIN komdis_pelanggaran kp ON dp.id_pelanggaran = kp.id_pelanggaran
                  LEFT JOIN tebusan t ON dp.id_pelanggaran = t.id_pelanggaran
+                 LEFT JOIN pelanggaran_rules r ON dp.id_rules = r.id_rules
                  ORDER BY dp.id_pelanggaran DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -210,23 +186,26 @@ class Admin
         }
     }
     
-    public function createMhs($nim, $nama_mahasiswa, $status_mhs, $passwordusr) {
-        // Insert into mahasiswa table
-        $query = "INSERT INTO mahasiswa (nim, nama_mahasiswa, status_mhs) 
-                  VALUES (:nim, :nama_mahasiswa, :status_mhs)";
+    //------------------------------------------------------------------------------------------------------------------------\\
+
+    //Mahasiswa
+    public function createMhs($nim, $nama_mahasiswa, $status_mhs, $kelas, $id_prodi, $passwordusr) {
+        $id_admin = '1';
+
+        $query = "INSERT INTO mahasiswa (nim, nama_mahasiswa, status_mhs, kelas, id_prodi, id_admin) 
+                  VALUES (:nim, :nama_mahasiswa, :status_mhs, :kelas, :id_prodi, :id_admin)";
         $stmt = $this->conn->prepare($query);
         $stmt->execute([
             'nim' => $nim,
             'nama_mahasiswa' => $nama_mahasiswa, 
             'status_mhs' => $status_mhs,
+            'kelas' => $kelas,
+            'id_prodi' => $id_prodi,
+            'id_admin' => $id_admin
         ]);
 
-        // Get the last inserted id_mahasiswa
         $id_mahasiswa = $this->conn->lastInsertId();
 
-        $id_admin = '1';
-
-        // Insert into usertatib table
         $query2 = "INSERT INTO usertatib (username, passwordusr, id_mahasiswa, id_admin) 
                    VALUES (:username, :passwordusr, :id_mahasiswa, :id_admin)";
         $stmt2 = $this->conn->prepare($query2);
@@ -240,4 +219,161 @@ class Admin
         return $id_mahasiswa;
     }
 
+    public function updateMhs($id_mahasiswa, $nim, $nama_mahasiswa, $kelas, $id_prodi, $status_mhs) {
+        $query = "UPDATE mahasiswa 
+                 SET nim = :nim,
+                     nama_mahasiswa = :nama_mahasiswa,
+                     kelas = :kelas,
+                     id_prodi = :id_prodi,
+                     status_mhs = :status_mhs
+                 WHERE id_mahasiswa = :id_mahasiswa";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([
+            'id_mahasiswa' => $id_mahasiswa,
+            'nim' => $nim,
+            'kelas' => $kelas,
+            'id_prodi' => $id_prodi,
+            'nama_mahasiswa' => $nama_mahasiswa,
+            'status_mhs' => $status_mhs
+        ]);
+
+        $query2 = "UPDATE usertatib SET username = :nim WHERE id_mahasiswa = :id_mahasiswa";
+        $stmt2 = $this->conn->prepare($query2);
+        $stmt2->execute([
+            'nim' => $nim,
+            'id_mahasiswa' => $id_mahasiswa
+        ]);
+
+        return $id_mahasiswa;
+    }
+
+    public function deleteMhs($id_mahasiswa) {
+        $query1 = "DELETE FROM usertatib WHERE id_mahasiswa = :id_mahasiswa";
+        $stmt1 = $this->conn->prepare($query1);
+        $stmt1->execute(['id_mahasiswa' => $id_mahasiswa]);
+
+        $query2 = "DELETE FROM mahasiswa WHERE id_mahasiswa = :id_mahasiswa";
+        $stmt2 = $this->conn->prepare($query2);
+        $stmt2->execute(['id_mahasiswa' => $id_mahasiswa]);
+
+        return true;
+    }
+
+    //------------------------------------------------------------------------------------------------------------------------\\
+
+    //Dosen
+    public function createDosen($nidn, $nama_dosen, $email, $status_dosen, $jabatan_dosen, $role, $passwordusr) {
+        $id_admin = '1';
+
+        $query = "INSERT INTO dosen (nidn, nama_dosen, email, status_dosen, jabatan_dosen, role, id_admin) 
+                  VALUES (:nidn, :nama_dosen, :email, :status_dosen, :jabatan_dosen, :role, :id_admin)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([
+            'nidn' => $nidn,
+            'nama_dosen' => $nama_dosen, 
+            'email' => $email, 
+            'status_dosen' => $status_dosen,
+            'jabatan_dosen' => $jabatan_dosen,
+            'role' => $role,
+            'id_admin' => $id_admin
+        ]);
+
+        $id_dosen = $this->conn->lastInsertId();
+        
+        $query2 = "INSERT INTO usertatib (username, passwordusr, id_dosen, id_admin) 
+                    VALUES (:username, :passwordusr, :id_dosen, :id_admin)";
+        $stmt2 = $this->conn->prepare($query2);
+        $stmt2->execute([
+            'username' => $nidn,
+            'passwordusr' => $passwordusr,
+            'id_dosen' => $id_dosen,
+            'id_admin' => $id_admin
+        ]);
+        
+        return $id_dosen;
+    }
+
+    public function updateDosen($id_dosen, $nidn, $nama_dosen, $email, $status_dosen, $jabatan_dosen, $role) {
+        $query = "UPDATE dosen 
+                 SET nidn = :nidn,
+                     nama_dosen = :nama_dosen, 
+                     email = :email,
+                     status_dosen = :status_dosen,
+                     jabatan_dosen = :jabatan_dosen,
+                     role = :role
+                 WHERE id_dosen = :id_dosen";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([
+            'id_dosen' => $id_dosen,
+            'nidn' => $nidn,
+            'nama_dosen' => $nama_dosen,
+            'email' => $email, 
+            'status_dosen' => $status_dosen,
+            'jabatan_dosen' => $jabatan_dosen,
+            'role' => $role
+        ]);
+
+        $query2 = "UPDATE usertatib SET username = :nidn WHERE id_dosen = :id_dosen";
+        $stmt2 = $this->conn->prepare($query2);
+        $stmt2->execute([
+            'nidn' => $nidn,
+            'id_dosen' => $id_dosen
+        ]);
+        
+        return $id_dosen;
+    }
+
+    public function deleteDosen($id_dosen) {
+        $query1 = "DELETE FROM usertatib WHERE id_dosen = :id_dosen";
+        $stmt1 = $this->conn->prepare($query1);
+        $stmt1->execute(['id_dosen' => $id_dosen]);
+
+        $query2 = "DELETE FROM dosen WHERE id_dosen = :id_dosen";
+        $stmt2 = $this->conn->prepare($query2);
+        $stmt2->execute(['id_dosen' => $id_dosen]);
+        
+        return $id_dosen;
+    }
+
+     //------------------------------------------------------------------------------------------------------------------------\\
+
+    //Pelanggaran
+    public function createViolation($deskripsi_pelanggaran, $tingkat_pelanggaran) {
+        $query = "INSERT INTO pelanggaran_rules (deskripsi_pelanggaran, tingkat_pelanggaran)
+                    VALUES (:deskripsi_pelanggaran, :tingkat_pelanggaran)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([
+            'deskripsi_pelanggaran' => $deskripsi_pelanggaran,
+            'tingkat_pelanggaran' => $tingkat_pelanggaran
+        ]);
+
+        $id_rules = $this->conn->lastInsertId();
+        return $id_rules;
+    }
+
+    public function updateViolation($id_rules, $deskripsi_pelanggaran, $tingkat_pelanggaran) {
+        $query = "UPDATE pelanggaran_rules 
+                 SET deskripsi_pelanggaran = :deskripsi_pelanggaran,
+                     tingkat_pelanggaran = :tingkat_pelanggaran
+                 WHERE id_rules = :id_rules";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([
+            'id_rules' => $id_rules,
+            'deskripsi_pelanggaran' => $deskripsi_pelanggaran,
+            'tingkat_pelanggaran' => $tingkat_pelanggaran
+        ]);
+        
+        return $id_rules;
+    }
+
+    public function deleteViolation($id_rules) {
+        $query = "DELETE FROM pelanggaran_rules WHERE id_rules = :id_rules";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute(['id_rules' => $id_rules]);
+        
+        return $id_rules;
+    }
 }
