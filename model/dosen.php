@@ -34,10 +34,11 @@ class Dosen {
     }
 
     public function getPelanggaranTingkat1() {
-        $query = "SELECT dp.*, m.nim, m.nama_mahasiswa, dp.deskripsi_pelanggaran
+        $query = "SELECT dp.*, m.nim, m.nama_mahasiswa, dp.deskripsi_pelanggaran, r.tingkat_pelanggaran
                  FROM datapelanggaran dp
                  INNER JOIN mahasiswa m ON dp.id_mahasiswa = m.id_mahasiswa
-                 WHERE dp.tingkat_pelanggaran = '1'
+                 INNER JOIN pelanggaran_rules r ON dp.id_rules = r.id_rules
+                 WHERE r.tingkat_pelanggaran = 1
                  ORDER BY dp.id_pelanggaran DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
