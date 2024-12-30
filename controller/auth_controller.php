@@ -12,11 +12,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($login_result === "success") {
         // Login berhasil, tidak perlu tindakan di sini
     } elseif ($login_result === "invalid_password") {
-        echo "<script>alert('Password yang anda masukkan salah!'); window.location.href='/technorules/login';</script>";
+        header("Location: /technorules/login?status=error&message=Password yang anda masukkan salah!");
     } elseif ($login_result === "invalid_username") {
-        echo "<script>alert('Username yang anda masukkan salah!'); window.location.href='/technorules/login';</script>";
+        header("Location: /technorules/login?status=error&message=Username yang anda masukkan salah!");
     } elseif ($login_result === "empty_fields") {
-        echo "<script>alert('Masukkan username dan password terlebih dahulu!'); window.location.href='/technorules/login';</script>";
+        header("Location: /technorules/login?status=error&message=Masukkan username dan password terlebih dahulu!");
     } else {
         header("Location: /technorules/login"); 
     }

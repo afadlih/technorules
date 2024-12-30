@@ -9,25 +9,32 @@ class Mahasiswa
         $this->conn = $db;
     }
 
-    // Method to fetch violations for the logged-in student
     public function getViolations($id_mahasiswa)
     {
-        $query = "SELECT * FROM datapelanggaran WHERE id_mahasiswa = :id_mahasiswa";
+        $query = "SELECT dp.*, pr.*, t.* 
+                  FROM datapelanggaran dp
+                  INNER JOIN pelanggaran_rules pr ON dp.id_rules = pr.id_rules
+                  INNER JOIN tebusan t ON dp.id_pelanggaran = t.id_pelanggaran
+                  WHERE dp.id_mahasiswa = :id_mahasiswa";
         $stmt = $this->conn->prepare($query);
         $stmt->execute(['id_mahasiswa' => $id_mahasiswa]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Method to fetch messages for the logged-in student
-    public function getMessages($id_mahasiswa)
+    public function getTopViolations($id_mahasiswa)
     {
-        $query = "SELECT * FROM datapelanggaran WHERE id_mahasiswa = :id_mahasiswa AND tingkat_pelanggaran = '1'";
+        $query = "SELECT dp.*, pr.*, t.*, kp.*
+                  FROM datapelanggaran dp
+                  LEFT JOIN pelanggaran_rules pr ON dp.id_rules = pr.id_rules
+                  LEFT JOIN tebusan t ON dp.id_pelanggaran = t.id_pelanggaran
+                  LEFT JOIN komdis_pelanggaran kp ON dp.id_pelanggaran = t.id_pelanggaran
+                  WHERE dp.id_mahasiswa = :id_mahasiswa 
+                  AND pr.tingkat_pelanggaran = '1'";
         $stmt = $this->conn->prepare($query);
         $stmt->execute(['id_mahasiswa' => $id_mahasiswa]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Method to fetch profile information for the logged-in student
     public function getProfile($id_mahasiswa)
     {
         $query = "SELECT m.*, p.nama_prodi, sm.status_nama 

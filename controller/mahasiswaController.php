@@ -13,4 +13,5 @@ $mahasiswa_id = $_SESSION['mahasiswa_id'];
 $mahasiswa = new Mahasiswa($conn);
 $profile = $mahasiswa->getProfile($mahasiswa_id);
 $violations = $mahasiswa->getViolations($_SESSION['mahasiswa_id']);
+$topViolations = $mahasiswa->getTopViolations($_SESSION['mahasiswa_id']);
 ?>
