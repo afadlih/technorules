@@ -1,4 +1,25 @@
 <?php
+if (isset($_GET['status']) && isset($_GET['message'])) {
+    $status = $_GET['status'];
+    $message = $_GET['message'];
+    
+    if ($status == 'success') {
+        echo "<div id='alert' class='fixed top-4 left-1/2 transform -translate-x-1/2 p-4 text-sm text-green-700 bg-green-100 rounded-lg shadow-lg z-50'>{$message}</div>";
+    } else if ($status == 'error') {
+        echo "<div id='alert' class='fixed top-4 left-1/2 transform -translate-x-1/2 p-4 text-sm text-red-700 bg-red-100 rounded-lg shadow-lg z-50'>{$message}</div>";
+    }
+    
+    echo "<script>
+        setTimeout(function() {
+            document.getElementById('alert').style.opacity = '0';
+            document.getElementById('alert').style.transition = 'opacity 0.5s';
+            setTimeout(function() {
+                document.getElementById('alert').remove();
+            }, 500);
+        }, 5000);
+    </script>";
+}
+
 require_once "./controller/register_controller.php";
 
 $judul = "Daftar | Tata Tertib Polinema";
@@ -19,26 +40,6 @@ include "common/components/layouts/dpa.php";
             <h1 class="text-3xl font-bold text-[#0242a6]">
                 Sign Up
             </h1>
-            <?php if (isset($_GET['error'])) { ?>
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                    <strong class="font-bold">Error!</strong>
-                    <span class="block sm:inline">
-                        <?php
-                        if ($_GET['error'] == "password_mismatch") {
-                            echo "Password tidak cocok.";
-                        } elseif ($_GET['error'] == "registration_failed") {
-                            echo "Registrasi gagal. Silakan coba lagi.";
-                        }
-                        ?>
-                    </span>
-                </div>
-            <?php } ?>
-            <?php if (isset($_GET['success'])) { ?>
-                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-                    <strong class="font-bold">Sukses!</strong>
-                    <span class="block sm:inline">Registrasi berhasil. Silakan login.</span>
-                </div>
-            <?php } ?>
             <form action="/technorules/controller/register_controller.php" method="post" class="w-full lg:w-[90%]">
                 <div class="flex flex-col gap-3 mt-10">
                     <label for="nama_mahasiswa" class="font-semibold text-lg text-[#0242a6]">

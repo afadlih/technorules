@@ -21,11 +21,12 @@ class Dosen {
     }
 
     public function getDashboard(){
-        $query = "SELECT TOP 5 dp.*, m.nim, m.nama_mahasiswa, m.kelas
+        $query = "SELECT TOP 5 dp.*, m.nim, m.nama_mahasiswa, m.kelas, r.tingkat_pelanggaran
                  FROM datapelanggaran dp
                  INNER JOIN mahasiswa m ON dp.id_mahasiswa = m.id_mahasiswa
                  LEFT JOIN komdis_pelanggaran kp ON dp.id_pelanggaran = kp.id_pelanggaran
                  LEFT JOIN tebusan t ON dp.id_pelanggaran = t.id_pelanggaran
+                 LEFT JOIN pelanggaran_rules r ON dp.id_rules = r.id_rules
                  ORDER BY dp.id_pelanggaran DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
