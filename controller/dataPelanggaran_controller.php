@@ -5,7 +5,6 @@ require_once "./model/dosen.php";
 require_once "./model/admin.php";
 
 $dosen = new Admin($conn);
-$dataPelanggaran = $dosen->getViolations();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $deskripsi_pelanggaran = htmlspecialchars($_POST['deskripsi_pelanggaran']);
@@ -14,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data = [
         'deskripsi_pelanggaran' => $deskripsi_pelanggaran,
         'tingkat_pelanggaran' => $tingkat_pelanggaran,
-        'id_admin' => 1, // Default admin ID
+        'id_dosen' => $id_dosen,
         'id_mahasiswa' => $nim
     ];
 
