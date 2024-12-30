@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $result = $user->createMhs($username, $nama_mahasiswa, $status_mhs = 'A', $kelas = '-', $id_prodi = 1, $password);
 
     if ($result) {
-        header("Location: /technorules/login?success=Registrasi berhasil, silahkan login");
+        header("Location: /technorules/login?status=success&message=Registrasi berhasil, silahkan login");
     } else {
         header("Location: /technorules/register?error=" . $result);
     }

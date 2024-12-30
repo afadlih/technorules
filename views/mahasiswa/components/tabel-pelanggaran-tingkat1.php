@@ -9,21 +9,21 @@ require_once './controller/mahasiswaController.php';
             <th class="pl-4 py-2 text-center">No</th>
             <th class="px-4 py-2 text-center">Deskripsi Pelanggaran</th>
             <th class="px-4 py-2 text-center">Tingkat Pelanggaran</th>
-            <th class="px-4 py-2 text-center">Kegiatan Tebusan</th>
-            <th class="px-4 py-2 text-center">Tanggal Tebusan</th>
+            <th class="px-4 py-2 text-center">Tanggal Keputusan</th>
+            <th class="px-4 py-2 text-center">Keputusan</th>
         </tr>
     </thead>
     <tbody>
         <?php
         $no = 1;
-        if (count($violations) > 0) {
-            foreach ($violations as $violation) {
+        if (count($topViolations) > 0) {
+            foreach ($topViolations as $topViolation) {
                 echo "<tr>
                     <td class='pl-4 py-2 text-center border-b border-[#e4e8ed]'>" . $no++ . "</td>
-                    <td class='px-4 py-2 text-center border-b border-[#e4e8ed]'>{$violation['deskripsi_pelanggaran']}</td>
-                    <td class='px-4 py-2 text-center border-b border-[#e4e8ed]'>{$violation['tingkat_pelanggaran']}</td>
-                    <td class='px-4 py-2 text-center border-b border-[#e4e8ed]'>{$violation['kegiatan_tebusan']}</td>
-                    <td class='px-4 py-2 text-center border-b border-[#e4e8ed]'>{$violation['tanggal_tebusan']}</td>
+                    <td class='px-4 py-2 text-center border-b border-[#e4e8ed]'>{$topViolation['deskripsi_pelanggaran']}</td>
+                    <td class='px-4 py-2 text-center border-b border-[#e4e8ed]'>{$topViolation['tingkat_pelanggaran']}</td>
+                    <td class='px-4 py-2 text-center border-b border-[#e4e8ed]'>{$topViolation['tanggal_keputusan']}</td>
+                    <td class='px-4 py-2 text-center border-b border-[#e4e8ed]'>{$topViolation['keputusan']}</td>
                 </tr>";
             }
         } else {

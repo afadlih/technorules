@@ -12,11 +12,13 @@ include "common/components/layouts/mahasiswa.php";
     <section class="bg-white h-[120vh] w-full overflow-y-auto flex flex-col">
         <?php require_once "common/components/profile-card/mahasiswa.php"; ?>
         <div class="mt-8 mb-14 w-[90%] mx-auto overflow-x-scroll h-full px-10 rounded-xl border-2 border-[#afbbca]">
-            <h4 class="mt-5 cursor-default text-center text-2xl font-bold text-[#414f63]">Data Pelaporan</h4>
+            <h4 class="mt-5 cursor-default text-center text-2xl font-bold text-[#414f63]">
+                Data Pelanggaran Tingkat 1
+            </h4>
             <?php if (count($violations) > 0): ?>
-                <?php require_once "views/mahasiswa/components/tabel-pelanggaran.php"; ?>
+            <?php require_once "views/mahasiswa/components/tabel-pelanggaran-tingkat1.php"; ?>
             <?php else: ?>
-                <h5 class="mt-4 text-center">Surat pernyataan tidak tersedia.</h5>
+            <h5 class="mt-4 text-center">Tidak ada pelanggaran tingkat 1 dilakukan.</h5>
             <?php endif; ?>
         </div>
     </section>
